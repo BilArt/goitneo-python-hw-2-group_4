@@ -19,6 +19,7 @@ def input_error(func):
     return inner
 
 
+@input_error
 def add_contact(args, contacts):
     # Додає новий контакт до словника
     if len(args) == 2:
@@ -26,9 +27,10 @@ def add_contact(args, contacts):
         contacts[name] = phone
         return "Contact added."
     else:
-        return "Invalid command. Use 'add [name] [phone]'."
+        return ValueError
 
 
+@input_error
 def change_contact(args, contacts):
     # Змінює номер телефону для існуючого контакту
     if len(args) == 2:
@@ -37,11 +39,12 @@ def change_contact(args, contacts):
             contacts[name] = new_phone
             return "Contact updated."
         else:
-            return "Contact not found."
+            raise KeyError
     else:
-        return "Invalid command. Use 'change [name] [new_phone]'."
+        return ValueError
 
 
+@input_error
 def show_phone(args, contacts):
     # Показує номер телефону для зазначеного контакту
     if len(args) == 1:
@@ -49,9 +52,9 @@ def show_phone(args, contacts):
         if name in contacts:
             return contacts[name]
         else:
-            return "Contact not found."
+            return KeyError
     else:
-        return "Invalid command. Use 'phone [name]'."
+        return ValueError
 
 
 def show_all(contacts):
