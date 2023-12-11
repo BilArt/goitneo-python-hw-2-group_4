@@ -9,8 +9,8 @@ def input_error(func):
     def inner(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except ValueError:
-            return "Give me name and phone please."
+        except ValueError as e:
+            return f"Error: {e}"
         except KeyError:
             return "Enter user name."
         except IndexError:
@@ -24,10 +24,15 @@ def add_contact(args, contacts):
     # Додає новий контакт до словника
     if len(args) == 2:
         name, phone = args
+
+        if not phone.isdigit():
+            raise ValueError("Phone must be a numeric value.")
+        
+
         contacts[name] = phone
         return "Contact added."
     else:
-        return ValueError
+        return ValueError("Give me name and phone please.")
 
 
 @input_error
@@ -39,9 +44,9 @@ def change_contact(args, contacts):
             contacts[name] = new_phone
             return "Contact updated."
         else:
-            raise KeyError
+            raise KeyError("Enter user name.")
     else:
-        return ValueError
+        return ValueError("Give me name and phone please.")
 
 
 @input_error
@@ -52,9 +57,9 @@ def show_phone(args, contacts):
         if name in contacts:
             return contacts[name]
         else:
-            return KeyError
+            return KeyError("Enter user name.")
     else:
-        return ValueError
+        return ValueError("Give me phone number please.")
 
 
 def show_all(contacts):
