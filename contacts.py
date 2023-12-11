@@ -4,6 +4,21 @@ def parse_input(user_input):
     return cmd, args
 
 
+def input_error(func):
+    #Декоратор для обробки винятків та повернення відповідних повідомлень користувачеві
+    def inner(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except ValueError:
+            return "Give me name and phone please."
+        except KeyError:
+            return "Enter user name."
+        except IndexError:
+            return "Invalid command. Please enter a valid command."
+        
+    return inner
+
+
 def add_contact(args, contacts):
     # Додає новий контакт до словника
     if len(args) == 2:
