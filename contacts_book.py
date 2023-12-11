@@ -30,6 +30,9 @@ class Record:
         new_phone = Phone(phone)
         self.phones.append(new_phone)
 
+    def remove_phone(self, phone):
+        self.phones = [p for p in self.phones if p.value != phone]
+
     def edit_phone(self, old_phone, new_phone):
         self.remove_phone(old_phone)
         self.add_phone(new_phone)
